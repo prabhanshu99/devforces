@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  password    String
+  role        Role
+  Leaderboard Leaderboard[]
+}
+
+enum Role {
+  User
+  Admin
+}
+
+model Contest {
+  id                 Int                  @id @default(autoincrement())
+  title              String
+  startTime          DateTime
+  ContestToChallenge ContestToChallenge[]
+  Leaderboard        Leaderboard[]
+}
+
+model ContestToChallenge {
+  id          Int          @id @default(autoincrement())
+  contestId   Int
+  challengeId Int
+  index       Int
+  submissions Submission[]
+  contest     Contest      @relation(fields: [contestId], references: [id])
+  challenge   Challenge    @relation(fields: [challengeId], references: [id])
+
+  @@unique([contestId, challengeId])
+}
+
+model Challenge {
+  id                  Int                  @id @default(autoincrement())
+  title               String
+  notiondocId         String
+  maxpoints           Int
+  contestToChallenges ContestToChallenge[]
+}
+
+model Submission {
+  id                   Int                @id @default(autoincrement())
+  contestToChallengeId Int
+  points               Int
+  ContestToChallenge   ContestToChallenge @relation(fields: [contestToChallengeId], references: [id])
+  createdAt            DateTime           @default(now())
+}
+
+model Leaderboard {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  contestId Int
+  rank      Int
+  user      User    @relation(fields: [userId], references: [id])
+  contest   Contest @relation(fields: [contestId], references: [id])
+
+  @@unique([contestId, userId])
+}
