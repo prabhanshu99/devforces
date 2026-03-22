@@ -13,11 +13,12 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  email       String        @unique
-  role        Role
-  Leaderboard Leaderboard[]
-  submissions Submission[]
+  id                String              @id @default(uuid())
+  email             String              @unique
+  role              Role
+  leaderboard       Leaderboard[]
+  submissions       Submissions[]
+  ContestSubmission ContestSubmission[]
 }
 
 enum Role {
@@ -26,50 +27,63 @@ enum Role {
 }
 
 model Contest {
-  id                 Int                  @id @default(autoincrement())
-  title              String
-  startTime          DateTime
-  ContestToChallenge ContestToChallenge[]
-  Leaderboard        Leaderboard[]
+  id                        String                      @id @default(uuid())
+  title                     String
+  startTime                 DateTime
+  leaderboard               Leaderboard[]
+  contestToChallengeMapping ContestToChallengeMapping[]
 }
 
-model ContestToChallenge {
-  id          Int          @id @default(autoincrement())
-  contestId   Int
-  challengeId Int
-  index       Int
-  submissions Submission[]
-  contest     Contest      @relation(fields: [contestId], references: [id])
-  challenge   Challenge    @relation(fields: [challengeId], references: [id])
+model ContestToChallengeMapping {
+  id                String              @id @default(uuid())
+  contestId         String
+  challengeId       String
+  index             Int
+  ContestSubmission ContestSubmission[]
+  contest           Contest             @relation(fields: [contestId], references: [id])
+  challenge         Challenge           @relation(fields: [challengeId], references: [id])
 
   @@unique([contestId, challengeId])
 }
 
 model Challenge {
-  id                  Int                  @id @default(autoincrement())
-  title               String
-  notiondocId         String
-  maxpoints           Int
-  contestToChallenges ContestToChallenge[]
+  id                        String                      @id @default(uuid())
+  title                     String
+  notionDocId               String
+  maxPoints                 Int
+  contestToChallengeMapping ContestToChallengeMapping[]
+  submissions               Submissions[]
 }
 
-model Submission {
-  id                   Int                @id @default(autoincrement())
-  contestToChallengeId Int
-  points               Int
-  user                 User               @relation(fields: [userId], references: [id])
-  userId               Int
-  ContestToChallenge   ContestToChallenge @relation(fields: [contestToChallengeId], references: [id])
-  createdAt            DateTime           @default(now())
+model ContestSubmission {
+  id                          String                    @id @default(uuid())
+  submission                  String
+  contestToChallengeMappingId String
+  userId                      String
+  user                        User                      @relation(fields: [userId], references: [id])
+  points                      Int
+  contestToChallengeMapping   ContestToChallengeMapping @relation(fields: [contestToChallengeMappingId], references: [id])
+  createdAt                   DateTime                  @default(now())
+}
+
+model Submissions {
+  id          String    @id @default(uuid())
+  submission  String
+  challengeId String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  points      Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  createdAt   DateTime  @default(now())
 }
 
 model Leaderboard {
-  id        Int     @id @default(autoincrement())
-  userId    Int
-  contestId Int
+  id        String  @id @default(uuid())
+  contestId String
+  userId    String
   rank      Int
-  user      User    @relation(fields: [userId], references: [id])
   contest   Contest @relation(fields: [contestId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
 
-  @@unique([contestId, userId])
+  @@unique([contestId, rank])
 }
