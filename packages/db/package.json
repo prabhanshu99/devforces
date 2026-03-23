@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.11"
   },
   "exports": {
     "./client": "./index.ts"
@@ -13,8 +14,10 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "dotenv": "^17.3.1",
+    "pg": "^8.13.3",
     "prisma": "^7.5.0"
   }
 }
