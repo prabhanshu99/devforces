@@ -29,9 +29,9 @@ router.post("/signin", async (req, res) => {
     }, process.env.EMAIL_JWT_PASSWORD as string);
 
     if (process.env.NODE_ENV == "production") {
-        await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/user/login/post?token=${token}`);
+        await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
     } else {
-        console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/login/post?token=${token}`);
+        console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
     }
 });
 
