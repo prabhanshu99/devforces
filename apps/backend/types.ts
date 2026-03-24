@@ -33,3 +33,9 @@ export const SubmitSchema = z.object({
 export interface JwtPayload {
     userId: string;
 }
+
+export interface RequestWithParams extends Request {
+    params: {
+        contestId: string;
+    }
+}
