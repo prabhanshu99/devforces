@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { client } from "db/client";
-import { AdminSigninSchema, type JwtPayload } from "../types";
+import { AdminSigninSchema, CreateChallengeSchema, type JwtPayload } from "../types";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../mail";
 import { adminMiddleware } from "../middleware/admin";
@@ -57,7 +57,7 @@ router.post("/contest", adminMiddleware, async (req, res) => {
     res.json({ message: "Contest created successfully", contest });
 })
 
-
+// delete a contest from the database
 router.delete("/contest/:contestId", adminMiddleware, async (req, res) => {
     const { contestId } = req.params;
     const contest = await client.contest.delete({
@@ -68,6 +68,53 @@ router.delete("/contest/:contestId", adminMiddleware, async (req, res) => {
         }
     })
     res.json({ message: "Contest deleted successfully", contest });
+})
+
+// create a challenge in the database
+router.post("/challenge", adminMiddleware, async (req, res) => {
+    const { success, data } = CreateChallengeSchema.safeParse(req.body);
+    if (!success) {
+        return res.status(411).json({ message: "Invalid input" });
+    }
+    const challenge = await client.challenge.create({
+        data: {
+            title: data.title,
+            notionDocId: data.notionDocId,
+            maxPoints: data.maxPoints,
+        }
+    })
+    res.json({ message: "Challenge created successfully", challenge });
+})
+
+// add a challenge to a contest
+router.post("/contest/:contestId/challenge", adminMiddleware, async (req, res) => {
+    const { contestId } = req.params;
+    const { success, data } = CreateChallengeSchema.safeParse(req.body);
+    if (!success) {
+        return res.status(411).json({ message: "Invalid input" });
+    }
+    const contestToChallengeMapping = await client.contestToChallengeMapping.create({
+        data: {
+            // @ts-ignore
+            contestId: contestId,
+            challengeId: data.challengeId,
+            index: data.index,
+        }
+    })
+    res.json({ message: "Contest to challenge mapping created successfully", contestToChallengeMapping });
+})
+
+router.delete("/contest/:contestId/challenge/:challengeId", adminMiddleware, async (req, res) => {
+    const { contestId, challengeId } = req.params;
+    const contestToChallengeMapping = await client.contestToChallengeMapping.delete({
+        where: {
+            // @ts-ignore
+            contestId: contestId,
+            // @ts-ignore
+            challengeId: challengeId,
+        }
+    })
+    res.json({ message: "Contest to challenge mapping deleted successfully", contestToChallengeMapping });
 })
 
 export default router;
