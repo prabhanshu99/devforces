@@ -104,6 +104,8 @@ router.post("/contest/:contestId/challenge", adminMiddleware, async (req, res) =
     res.json({ message: "Contest to challenge mapping created successfully", contestToChallengeMapping });
 })
 
+// delete a challenge from a contest
+
 router.delete("/contest/:contestId/challenge/:challengeId", adminMiddleware, async (req, res) => {
     const { contestId, challengeId } = req.params;
     const contestToChallengeMapping = await client.contestToChallengeMapping.delete({
