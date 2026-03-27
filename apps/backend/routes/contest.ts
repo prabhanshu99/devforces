@@ -6,8 +6,8 @@ import { SubmitSchema } from "../types";
 const router = Router();
 
 // get all active contests
-router.get("/active", (req, res) => {
-    const contests = client.contest.findMany({
+router.get("/active", async (req, res) => {
+    const contests = await client.contest.findMany({
         where: {
             startTime: {
                 // lte : less than or equal to
@@ -21,8 +21,8 @@ router.get("/active", (req, res) => {
 });
 
 // get all finished contests
-router.get("/finished", (req, res) => {
-    const contests = client.contest.findMany({
+router.get("/finished", async (req, res) => {
+    const contests = await client.contest.findMany({
         where: {
             startTime: {
                 lte: new Date()
@@ -33,10 +33,10 @@ router.get("/finished", (req, res) => {
 });
 
 // get leaderboard of a contest
-router.get("/leaderboard/:contestId", (req, res) => {
+router.get("/leaderboard/:contestId", async (req, res) => {
     const { contestId } = req.params;
 
-    const leaderboard = client.leaderboard.findMany({
+    const leaderboard = await client.leaderboard.findMany({
         where: {
             contestId: contestId
         }, orderBy: {
@@ -49,10 +49,10 @@ router.get("/leaderboard/:contestId", (req, res) => {
 });
 
 // get a contest
-router.get("/:contestId", (req, res) => {
+router.get("/:contestId", async (req, res) => {
     const { contestId } = req.params;
 
-    const contest = client.contest.findUnique({
+    const contest = await client.contest.findUnique({
         where: {
             id: contestId
         }, include: {
@@ -67,9 +67,9 @@ router.get("/:contestId", (req, res) => {
 });
 
 // get a challenge in a contest
-router.get("/:contestId/:challengeId", userMiddleware, (req, res) => {
+router.get("/:contestId/:challengeId", userMiddleware, async (req, res) => {
     const { contestId, challengeId } = req.params;
-    const challenge = client.challenge.findUnique({
+    const challenge = await client.challenge.findUnique({
         where: {
             // @ts-ignore
             id: challengeId
