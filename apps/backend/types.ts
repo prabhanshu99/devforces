@@ -17,9 +17,6 @@ export const CreateChallengeSchema = z.object({
     title: z.string(),
     notionDocId: z.string(),
     maxPoints: z.number(),
-    challengeId: z.string(),
-    index: z.number(),
-
 })
 
 export const AddChallengeToContestSchema = z.object({

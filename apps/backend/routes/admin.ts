@@ -6,6 +6,7 @@ import { sendEmail } from "../mail";
 import { adminMiddleware } from "../middleware/admin";
 import { CreateContestSchema } from "../types";
 import type { RequestWithParams } from "../types";
+import { AddChallengeToContestSchema } from "../types";
 
 const router = Router();
 
@@ -38,6 +39,8 @@ router.post("/signin", async (req, res) => {
     } else {
         console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
     }
+
+    return res.json({ message: "Check your email for the login link" });
 });
 
 
@@ -89,7 +92,8 @@ router.post("/challenge", adminMiddleware, async (req, res) => {
 // add a challenge to a contest
 router.post("/contest/:contestId/challenge", adminMiddleware, async (req, res) => {
     const { contestId } = req.params;
-    const { success, data } = CreateChallengeSchema.safeParse(req.body);
+    const { success, data } = AddChallengeToContestSchema.safeParse(req.body);
+
     if (!success) {
         return res.status(411).json({ message: "Invalid input" });
     }
@@ -110,10 +114,10 @@ router.delete("/contest/:contestId/challenge/:challengeId", adminMiddleware, asy
     const { contestId, challengeId } = req.params;
     const contestToChallengeMapping = await client.contestToChallengeMapping.delete({
         where: {
-            // @ts-ignore
-            contestId: contestId,
-            // @ts-ignore
-            challengeId: challengeId,
+            contestId_challengeId: {
+                contestId: contestId as string,
+                challengeId: challengeId as string,
+            }
         }
     })
     res.json({ message: "Contest to challenge mapping deleted successfully", contestToChallengeMapping });
