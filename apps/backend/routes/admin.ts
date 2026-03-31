@@ -35,13 +35,31 @@ router.post("/signin", async (req, res) => {
     }, process.env.EMAIL_JWT_PASSWORD as string);
 
     if (process.env.NODE_ENV == "production") {
-        await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
+        await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/admin/signin/post?token=${token}`);
     } else {
-        console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
+        console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/admin/signin/post?token=${token}`);
     }
 
     return res.json({ message: "Check your email for the login link" });
 });
+
+router.get("/signin/post", async (req, res) => {
+    try {
+        const token = req.query.token as string;
+        const decoded = jwt.verify(token, process.env.EMAIL_JWT_PASSWORD as string) as JwtPayload;
+        if (decoded.userId) {
+            const token = jwt.sign({
+                userId: decoded.userId
+            }, process.env.JWT_PASSWORD as string);
+            res.json({ token });
+        } else {
+            return res.status(411).json({ message: "Invalid token" });
+        }
+
+    } catch (error) {
+        return res.status(411).json({ message: "Invalid token" })
+    }
+})
 
 
 // create a contest in the database
