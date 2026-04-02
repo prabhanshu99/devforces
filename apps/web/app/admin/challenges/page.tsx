@@ -90,7 +90,7 @@ export default function ChallengesAdmin() {
                     </div>
                     <button
                         onClick={handleCreateChallenge}
-                        className="self-start bg-accent hover:bg-accent-hover text-white font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer"
+                        className="self-start bg-accent hover:bg-accent-hover text-accent-text font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer"
                     >
                         Create Challenge
                     </button>

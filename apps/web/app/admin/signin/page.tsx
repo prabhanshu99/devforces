@@ -40,7 +40,7 @@ export default function AdminSignin() {
 
                 <button
                     onClick={handleSignin}
-                    className="w-full mt-4 bg-accent hover:bg-accent-hover text-white font-medium py-3 rounded-xl transition-all duration-200 cursor-pointer"
+                    className="w-full mt-4 bg-accent hover:bg-accent-hover text-accent-text font-medium py-3 rounded-xl transition-all duration-200 cursor-pointer"
                 >
                     Send Magic Link
                 </button>

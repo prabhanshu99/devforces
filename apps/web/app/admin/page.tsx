@@ -93,7 +93,7 @@ export default function AdminDashboard() {
                     />
                     <button
                         onClick={handleCreateContest}
-                        className="bg-accent hover:bg-accent-hover text-white font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap"
+                        className="bg-accent hover:bg-accent-hover text-accent-text font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap"
                     >
                         Create
                     </button>

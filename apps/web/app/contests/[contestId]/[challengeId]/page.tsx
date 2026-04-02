@@ -138,7 +138,7 @@ export default function ChallengePage() {
                     <button
                         onClick={handleSubmit}
                         disabled={submitting}
-                        className="bg-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium px-8 py-3 rounded-full transition-all duration-200 cursor-pointer"
+                        className="bg-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed text-accent-text font-medium px-8 py-3 rounded-full transition-all duration-200 cursor-pointer"
                     >
                         {submitting ? "Submitting..." : "Submit Solution"}
                     </button>

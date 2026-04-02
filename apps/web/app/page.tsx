@@ -13,7 +13,7 @@ export default function Home() {
       <div className="flex gap-4">
         <Link
           href="/contests"
-          className="bg-accent hover:bg-accent-hover text-white font-medium px-8 py-3 rounded-full transition-all duration-200"
+          className="bg-accent hover:bg-accent-hover text-accent-text font-medium px-8 py-3 rounded-full transition-all duration-200"
         >
           Browse Contests
         </Link>
