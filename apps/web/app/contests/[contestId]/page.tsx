@@ -40,14 +40,14 @@ export default function ContestPage() {
     if (loading)
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-2 border-text-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
 
     if (!contest)
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <p className="text-text-muted text-lg">Contest not found.</p>
+                <p className="text-text-muted">Contest not found.</p>
             </div>
         );
 
@@ -56,45 +56,51 @@ export default function ContestPage() {
     );
 
     return (
-        <div className="min-h-screen px-4 py-12 max-w-4xl mx-auto">
-            <div className="flex items-start justify-between mb-10">
+        <div className="min-h-screen px-4 py-16 max-w-3xl mx-auto">
+            <Link href="/contests" className="text-text-secondary hover:text-text-primary text-sm transition-colors">
+                ← All Contests
+            </Link>
+
+            <div className="flex items-start justify-between mt-6 mb-10">
                 <div>
-                    <h1 className="text-4xl font-bold text-text-primary">{contest.title}</h1>
+                    <h1 className="text-4xl font-bold tracking-tight text-text-primary">{contest.title}</h1>
                     <p className="text-text-secondary mt-2">
-                        Started: {new Date(contest.startTime).toLocaleString()}
+                        {new Date(contest.startTime).toLocaleString()}
                     </p>
                 </div>
                 <Link
                     href={`/contests/${contest.id}/leaderboard`}
-                    className="bg-bg-card border border-border px-5 py-2.5 rounded-lg text-sm text-accent hover:bg-bg-card-hover hover:border-accent transition-all"
+                    className="border border-border hover:border-accent text-text-primary text-sm font-medium px-5 py-2.5 rounded-full transition-all"
                 >
-                    🏆 Leaderboard
+                    Leaderboard
                 </Link>
             </div>
 
-            <h2 className="text-2xl font-semibold text-text-primary mb-4">Challenges</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-3">
+                Challenges
+            </h2>
 
             {challenges.length === 0 ? (
-                <div className="bg-bg-card border border-border rounded-xl p-8 text-center">
+                <div className="border border-border rounded-2xl p-8 text-center">
                     <p className="text-text-muted">No challenges added yet.</p>
                 </div>
             ) : (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col divide-y divide-border border border-border rounded-2xl overflow-hidden">
                     {challenges.map(({ challenge, index }) => (
                         <Link
                             key={challenge.id}
                             href={`/contests/${contest.id}/${challenge.id}`}
                         >
-                            <div className="group flex items-center justify-between bg-bg-card border border-border rounded-xl px-6 py-4 hover:border-accent hover:bg-bg-card-hover transition-all duration-200 cursor-pointer">
+                            <div className="flex items-center justify-between px-6 py-4 hover:bg-bg-secondary transition-colors cursor-pointer">
                                 <div className="flex items-center gap-4">
-                                    <span className="text-accent font-mono font-bold text-lg">
-                                        #{index}
+                                    <span className="text-text-muted font-mono text-sm w-6">
+                                        {index}
                                     </span>
-                                    <h3 className="text-lg font-medium text-text-primary group-hover:text-accent transition-colors">
+                                    <span className="font-medium text-text-primary">
                                         {challenge.title}
-                                    </h3>
+                                    </span>
                                 </div>
-                                <span className="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">
+                                <span className="text-sm text-text-secondary">
                                     {challenge.maxPoints} pts
                                 </span>
                             </div>

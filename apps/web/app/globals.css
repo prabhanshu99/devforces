@@ -1,34 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: #0a0a0f;
-  --color-bg-secondary: #12121a;
-  --color-bg-card: #1a1a2e;
-  --color-bg-card-hover: #222240;
-  --color-bg-input: #16162a;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
-  --color-border: #2a2a4a;
-  --color-border-focus: #6c63ff;
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f7;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f9f9fb;
+  --color-bg-input: #f5f5f7;
 
-  --color-text-primary: #eeeef0;
-  --color-text-secondary: #9494a8;
-  --color-text-muted: #6b6b80;
+  --color-border: #d2d2d7;
+  --color-border-focus: #1d1d1f;
 
-  --color-accent: #6c63ff;
-  --color-accent-hover: #7f78ff;
-  --color-accent-glow: rgba(108, 99, 255, 0.25);
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-muted: #aeaeb2;
 
-  --color-cyan: #00d4ff;
-  --color-green: #22c55e;
-  --color-red: #ef4444;
-  --color-yellow: #f59e0b;
+  --color-accent: #1d1d1f;
+  --color-accent-hover: #424245;
 
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --color-green: #34c759;
+  --color-red: #ff3b30;
 }
 
 body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

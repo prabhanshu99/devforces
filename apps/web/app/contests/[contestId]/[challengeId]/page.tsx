@@ -83,30 +83,30 @@ export default function ChallengePage() {
     if (loading)
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-2 border-text-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
 
     if (!challenge)
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <p className="text-text-muted text-lg">Challenge not found.</p>
+                <p className="text-text-muted">Challenge not found.</p>
             </div>
         );
 
     return (
-        <div className="min-h-screen px-4 py-12 max-w-4xl mx-auto">
+        <div className="min-h-screen px-4 py-16 max-w-3xl mx-auto">
             <Link
                 href={`/contests/${contestId}`}
-                className="text-text-secondary hover:text-accent transition-colors text-sm"
+                className="text-text-secondary hover:text-text-primary text-sm transition-colors"
             >
                 ← Back to Contest
             </Link>
 
             <div className="mt-6 mb-8">
                 <div className="flex items-center gap-4 mb-2">
-                    <h1 className="text-3xl font-bold text-text-primary">{challenge.title}</h1>
-                    <span className="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">
+                    <h1 className="text-3xl font-bold tracking-tight text-text-primary">{challenge.title}</h1>
+                    <span className="text-sm text-text-secondary border border-border px-3 py-0.5 rounded-full">
                         {challenge.maxPoints} pts
                     </span>
                 </div>
@@ -115,28 +115,30 @@ export default function ChallengePage() {
                     href={`https://notion.so/${challenge.notionDocId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-cyan hover:underline text-sm"
+                    className="text-text-secondary hover:text-text-primary underline underline-offset-4 text-sm transition-colors"
                 >
                     View Problem Statement →
                 </a>
             </div>
 
-            <div className="bg-bg-card border border-border rounded-xl p-6">
-                <h2 className="text-xl font-semibold text-text-primary mb-4">Your Submission</h2>
+            <div className="border border-border rounded-2xl p-6">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-4">
+                    Your Submission
+                </h2>
 
                 <textarea
                     rows={12}
                     placeholder="Write your solution here..."
                     value={submission}
                     onChange={(e) => setSubmission(e.target.value)}
-                    className="w-full bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary font-mono text-sm placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all resize-y"
+                    className="w-full bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary font-mono text-sm placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all resize-y"
                 />
 
                 <div className="flex items-center justify-between mt-4">
                     <button
                         onClick={handleSubmit}
                         disabled={submitting}
-                        className="bg-accent hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                        className="bg-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium px-8 py-3 rounded-full transition-all duration-200 cursor-pointer"
                     >
                         {submitting ? "Submitting..." : "Submit Solution"}
                     </button>

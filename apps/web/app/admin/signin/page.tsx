@@ -22,25 +22,25 @@ export default function AdminSignin() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-full max-w-md bg-bg-card border border-border rounded-2xl p-8 shadow-lg shadow-accent-glow/10">
+            <div className="w-full max-w-sm">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent to-cyan bg-clip-text text-transparent">
-                        Admin Panel
+                    <h1 className="text-3xl font-bold tracking-tight text-text-primary">
+                        Admin
                     </h1>
-                    <p className="text-text-secondary mt-2">Sign in as admin</p>
+                    <p className="text-text-secondary mt-2 text-sm">Sign in to manage contests</p>
                 </div>
 
                 <input
                     type="email"
-                    placeholder="Admin email"
+                    placeholder="admin@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                    className="w-full bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
                 />
 
                 <button
                     onClick={handleSignin}
-                    className="w-full mt-4 bg-accent hover:bg-accent-hover text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                    className="w-full mt-4 bg-accent hover:bg-accent-hover text-white font-medium py-3 rounded-xl transition-all duration-200 cursor-pointer"
                 >
                     Send Magic Link
                 </button>

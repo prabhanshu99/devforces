@@ -30,9 +30,9 @@ export default function SigninPost() {
 
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="bg-bg-card border border-border rounded-2xl p-10 text-center">
-                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-text-secondary text-lg">{message}</p>
+            <div className="text-center">
+                <div className="w-6 h-6 border-2 border-text-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-text-secondary">{message}</p>
             </div>
         </div>
     );

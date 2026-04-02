@@ -51,70 +51,66 @@ export default function ChallengesAdmin() {
     }
 
     return (
-        <div className="min-h-screen px-4 py-12 max-w-4xl mx-auto">
-            <Link
-                href="/admin"
-                className="text-text-secondary hover:text-accent transition-colors text-sm"
-            >
-                ← Back to Dashboard
+        <div className="min-h-screen px-4 py-16 max-w-3xl mx-auto">
+            <Link href="/admin" className="text-text-secondary hover:text-text-primary text-sm transition-colors">
+                ← Dashboard
             </Link>
 
-            <h1 className="text-4xl font-bold mt-6 mb-2 text-text-primary">Standalone Challenges</h1>
-            <p className="text-text-secondary mb-8">
-                Challenges created here can be reused across multiple contests.
+            <h1 className="text-4xl font-bold tracking-tight text-text-primary mt-6 mb-2">Challenges</h1>
+            <p className="text-text-secondary mb-10 text-sm">
+                Create challenges to be reused across contests.
             </p>
 
-            {/* Create challenge form */}
-            <div className="bg-bg-card border border-border rounded-xl p-6 mb-8">
-                <h2 className="text-xl font-semibold text-text-primary mb-4">Create New Challenge</h2>
+            {/* Create form */}
+            <div className="border border-border rounded-2xl p-6 mb-10">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-4">
+                    New Challenge
+                </h2>
                 <div className="flex flex-col gap-3">
                     <input
                         placeholder="Challenge Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                        className="bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
                     />
                     <div className="flex gap-3">
                         <input
                             placeholder="Notion Doc ID"
                             value={notionDocId}
                             onChange={(e) => setNotionDocId(e.target.value)}
-                            className="flex-1 bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            className="flex-1 bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
                         />
                         <input
-                            placeholder="Max Points"
+                            placeholder="Points"
                             type="number"
                             value={maxPoints}
                             onChange={(e) => setMaxPoints(Number(e.target.value))}
-                            className="w-32 bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            className="w-28 bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
                         />
                     </div>
                     <button
                         onClick={handleCreateChallenge}
-                        className="self-start bg-accent hover:bg-accent-hover text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                        className="self-start bg-accent hover:bg-accent-hover text-white font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer"
                     >
-                        + Create Challenge
+                        Create Challenge
                     </button>
                 </div>
             </div>
 
-            {/* Created challenges list */}
+            {/* Created list */}
             {challenges.length > 0 && (
                 <>
-                    <h2 className="text-2xl font-semibold text-text-primary mb-4">Recently Created</h2>
-                    <div className="flex flex-col gap-3">
+                    <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-3">
+                        Recently Created
+                    </h2>
+                    <div className="flex flex-col divide-y divide-border border border-border rounded-2xl overflow-hidden">
                         {challenges.map((ch) => (
-                            <div
-                                key={ch.id}
-                                className="bg-bg-card border border-border rounded-xl px-6 py-4"
-                            >
+                            <div key={ch.id} className="px-6 py-4">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg font-medium text-text-primary">{ch.title}</h3>
-                                    <span className="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">
-                                        {ch.maxPoints} pts
-                                    </span>
+                                    <span className="font-medium text-text-primary">{ch.title}</span>
+                                    <span className="text-sm text-text-secondary">{ch.maxPoints} pts</span>
                                 </div>
-                                <p className="text-sm text-text-muted mt-1 font-mono">ID: {ch.id}</p>
+                                <p className="text-xs text-text-muted font-mono mt-1">{ch.id}</p>
                             </div>
                         ))}
                     </div>
