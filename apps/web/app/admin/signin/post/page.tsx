@@ -15,7 +15,6 @@ export default function AdminSigninPost() {
             return;
         }
 
-        // Exchange the email token for an admin session JWT
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/signin/post?token=${emailToken}`)
             .then((res) => res.json())
             .then((data) => {
@@ -30,8 +29,11 @@ export default function AdminSigninPost() {
     }, []);
 
     return (
-        <div>
-            <p>{message}</p>
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="bg-bg-card border border-border rounded-2xl p-10 text-center">
+                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-text-secondary text-lg">{message}</p>
+            </div>
         </div>
     );
 }

@@ -27,33 +27,54 @@ export default function LeaderboardPage() {
             .catch(() => setLoading(false));
     }, [contestId]);
 
-    if (loading) return <p>Loading leaderboard...</p>;
+    if (loading)
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+
+    const medalColors = ["text-yellow", "text-text-secondary", "text-yellow"];
 
     return (
-        <div>
-            <Link href={`/contests/${contestId}`}>← Back to Contest</Link>
+        <div className="min-h-screen px-4 py-12 max-w-3xl mx-auto">
+            <Link
+                href={`/contests/${contestId}`}
+                className="text-text-secondary hover:text-accent transition-colors text-sm"
+            >
+                ← Back to Contest
+            </Link>
 
-            <h1>Leaderboard</h1>
+            <h1 className="text-4xl font-bold mt-6 mb-8 bg-gradient-to-r from-yellow to-accent bg-clip-text text-transparent">
+                🏆 Leaderboard
+            </h1>
 
             {entries.length === 0 ? (
-                <p>No rankings yet. Be the first to submit!</p>
+                <div className="bg-bg-card border border-border rounded-xl p-12 text-center">
+                    <p className="text-text-muted text-lg">No rankings yet.</p>
+                    <p className="text-text-muted text-sm mt-1">Be the first to submit!</p>
+                </div>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {entries.map((entry) => (
-                            <tr key={entry.user.id}>
-                                <td>#{entry.rank}</td>
-                                <td>{entry.user.email}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
+                    <div className="grid grid-cols-[80px_1fr] px-6 py-3 text-xs uppercase tracking-wider text-text-muted border-b border-border">
+                        <span>Rank</span>
+                        <span>Participant</span>
+                    </div>
+
+                    {entries.map((entry, i) => (
+                        <div
+                            key={entry.user.id}
+                            className={`grid grid-cols-[80px_1fr] px-6 py-4 items-center border-b border-border last:border-b-0 ${i < 3 ? "bg-accent/5" : ""
+                                }`}
+                        >
+                            <span className={`font-mono font-bold text-lg ${i < 3 ? medalColors[i] : "text-text-secondary"
+                                }`}>
+                                #{entry.rank}
+                            </span>
+                            <span className="text-text-primary">{entry.user.email}</span>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );

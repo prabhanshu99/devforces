@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Challenge {
     id: string;
@@ -23,9 +24,6 @@ export default function ChallengesAdmin() {
             router.push("/admin/signin");
             return;
         }
-
-        // Just fetching all challenges (we might need a backend route for this)
-        // For now, if no generic list_challenges, we focus on creation.
     }, []);
 
     async function handleCreateChallenge() {
@@ -39,7 +37,7 @@ export default function ChallengesAdmin() {
             body: JSON.stringify({
                 title,
                 notionDocId,
-                maxPoints: Number(maxPoints)
+                maxPoints: Number(maxPoints),
             }),
         });
 
@@ -53,29 +51,75 @@ export default function ChallengesAdmin() {
     }
 
     return (
-        <div>
-            <h1>Standalone Challenges</h1>
-            <p>Challenges created here can be reused across multiple contests.</p>
+        <div className="min-h-screen px-4 py-12 max-w-4xl mx-auto">
+            <Link
+                href="/admin"
+                className="text-text-secondary hover:text-accent transition-colors text-sm"
+            >
+                ← Back to Dashboard
+            </Link>
 
-            <section>
-                <h2>Create New Challenge</h2>
-                <input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
-                <input placeholder="Notion Doc ID" value={notionDocId} onChange={e => setNotionDocId(e.target.value)} />
-                <input placeholder="Max Points" type="number" value={maxPoints} onChange={e => setMaxPoints(Number(e.target.value))} />
-                <button onClick={handleCreateChallenge}>Create Challenge</button>
-            </section>
+            <h1 className="text-4xl font-bold mt-6 mb-2 text-text-primary">Standalone Challenges</h1>
+            <p className="text-text-secondary mb-8">
+                Challenges created here can be reused across multiple contests.
+            </p>
 
-            <hr />
-
-            <section>
-                <h2>Recent Challenges</h2>
-                {challenges.map(ch => (
-                    <div key={ch.id}>
-                        <h3>{ch.title}</h3>
-                        <p>Notion ID: {ch.notionDocId} | Points: {ch.maxPoints}</p>
+            {/* Create challenge form */}
+            <div className="bg-bg-card border border-border rounded-xl p-6 mb-8">
+                <h2 className="text-xl font-semibold text-text-primary mb-4">Create New Challenge</h2>
+                <div className="flex flex-col gap-3">
+                    <input
+                        placeholder="Challenge Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                    />
+                    <div className="flex gap-3">
+                        <input
+                            placeholder="Notion Doc ID"
+                            value={notionDocId}
+                            onChange={(e) => setNotionDocId(e.target.value)}
+                            className="flex-1 bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                        />
+                        <input
+                            placeholder="Max Points"
+                            type="number"
+                            value={maxPoints}
+                            onChange={(e) => setMaxPoints(Number(e.target.value))}
+                            className="w-32 bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                        />
                     </div>
-                ))}
-            </section>
+                    <button
+                        onClick={handleCreateChallenge}
+                        className="self-start bg-accent hover:bg-accent-hover text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                    >
+                        + Create Challenge
+                    </button>
+                </div>
+            </div>
+
+            {/* Created challenges list */}
+            {challenges.length > 0 && (
+                <>
+                    <h2 className="text-2xl font-semibold text-text-primary mb-4">Recently Created</h2>
+                    <div className="flex flex-col gap-3">
+                        {challenges.map((ch) => (
+                            <div
+                                key={ch.id}
+                                className="bg-bg-card border border-border rounded-xl px-6 py-4"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-medium text-text-primary">{ch.title}</h3>
+                                    <span className="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">
+                                        {ch.maxPoints} pts
+                                    </span>
+                                </div>
+                                <p className="text-sm text-text-muted mt-1 font-mono">ID: {ch.id}</p>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

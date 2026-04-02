@@ -21,16 +21,34 @@ export default function AdminSignin() {
     }
 
     return (
-        <div>
-            <h1>Admin Sign In</h1>
-            <input
-                type="email"
-                placeholder="Admin email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={handleSignin}>Sign in</button>
-            {message && <p>{message}</p>}
+        <div className="min-h-screen flex items-center justify-center px-4">
+            <div className="w-full max-w-md bg-bg-card border border-border rounded-2xl p-8 shadow-lg shadow-accent-glow/10">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent to-cyan bg-clip-text text-transparent">
+                        Admin Panel
+                    </h1>
+                    <p className="text-text-secondary mt-2">Sign in as admin</p>
+                </div>
+
+                <input
+                    type="email"
+                    placeholder="Admin email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                />
+
+                <button
+                    onClick={handleSignin}
+                    className="w-full mt-4 bg-accent hover:bg-accent-hover text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                >
+                    Send Magic Link
+                </button>
+
+                {message && (
+                    <p className="mt-4 text-center text-sm text-green">{message}</p>
+                )}
+            </div>
         </div>
     );
 }

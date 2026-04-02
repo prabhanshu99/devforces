@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Challenge {
     id: string;
@@ -79,35 +80,74 @@ export default function ChallengePage() {
         }
     }
 
-    if (loading) return <p>Loading challenge...</p>;
-    if (!challenge) return <p>Challenge not found.</p>;
+    if (loading)
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+
+    if (!challenge)
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-text-muted text-lg">Challenge not found.</p>
+            </div>
+        );
 
     return (
-        <div>
-            <h1>{challenge.title}</h1>
-            <p>Max Points: {challenge.maxPoints}</p>
-
-            {/* Link to the Notion doc for the problem statement */}
-            <a
-                href={`https://notion.so/${challenge.notionDocId}`}
-                target="_blank"
-                rel="noopener noreferrer"
+        <div className="min-h-screen px-4 py-12 max-w-4xl mx-auto">
+            <Link
+                href={`/contests/${contestId}`}
+                className="text-text-secondary hover:text-accent transition-colors text-sm"
             >
-                View Problem Statement →
-            </a>
+                ← Back to Contest
+            </Link>
 
-            <h2>Your Submission</h2>
-            <textarea
-                rows={12}
-                placeholder="Write your solution here..."
-                value={submission}
-                onChange={(e) => setSubmission(e.target.value)}
-            />
-            <button onClick={handleSubmit} disabled={submitting}>
-                {submitting ? "Submitting..." : "Submit"}
-            </button>
+            <div className="mt-6 mb-8">
+                <div className="flex items-center gap-4 mb-2">
+                    <h1 className="text-3xl font-bold text-text-primary">{challenge.title}</h1>
+                    <span className="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">
+                        {challenge.maxPoints} pts
+                    </span>
+                </div>
 
-            {submitStatus && <p>{submitStatus}</p>}
+                <a
+                    href={`https://notion.so/${challenge.notionDocId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-cyan hover:underline text-sm"
+                >
+                    View Problem Statement →
+                </a>
+            </div>
+
+            <div className="bg-bg-card border border-border rounded-xl p-6">
+                <h2 className="text-xl font-semibold text-text-primary mb-4">Your Submission</h2>
+
+                <textarea
+                    rows={12}
+                    placeholder="Write your solution here..."
+                    value={submission}
+                    onChange={(e) => setSubmission(e.target.value)}
+                    className="w-full bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary font-mono text-sm placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all resize-y"
+                />
+
+                <div className="flex items-center justify-between mt-4">
+                    <button
+                        onClick={handleSubmit}
+                        disabled={submitting}
+                        className="bg-accent hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-accent-glow cursor-pointer"
+                    >
+                        {submitting ? "Submitting..." : "Submit Solution"}
+                    </button>
+
+                    {submitStatus && (
+                        <p className={`text-sm ${submitStatus.includes("success") ? "text-green" : "text-red"}`}>
+                            {submitStatus}
+                        </p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
