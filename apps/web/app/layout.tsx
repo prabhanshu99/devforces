@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: "A competitive programming platform for developers",
 };
 
+import { NavBar } from "./components/NavBar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,8 +25,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider>
-          <ThemeToggle />
-          {children}
+          <NavBar />
+          <div className="pt-16">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
