@@ -8,6 +8,7 @@ interface Contest {
     id: string;
     title: string;
     startTime: string;
+    endTime: string;
 }
 
 export default function AdminDashboard() {
@@ -15,6 +16,7 @@ export default function AdminDashboard() {
     const [contests, setContests] = useState<Contest[]>([]);
     const [title, setTitle] = useState("");
     const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,7 +43,7 @@ export default function AdminDashboard() {
                 "Content-Type": "application/json",
                 Authorization: token ?? "",
             },
-            body: JSON.stringify({ title, startTime }),
+            body: JSON.stringify({ title, startTime, endTime }),
         });
 
         if (res.ok) {
@@ -49,6 +51,7 @@ export default function AdminDashboard() {
             setContests([...contests, data.contest]);
             setTitle("");
             setStartTime("");
+            setEndTime("");
         }
     }
 
@@ -78,24 +81,38 @@ export default function AdminDashboard() {
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-4">
                     New Contest
                 </h2>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col gap-3">
                     <input
                         placeholder="Contest Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="flex-1 bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
+                        className="w-full bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
                     />
-                    <input
-                        type="datetime-local"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        className="bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
-                    />
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <div className="flex-1">
+                            <label className="text-[10px] uppercase font-bold text-text-muted ml-1 mb-1 block">Start Time</label>
+                            <input
+                                type="datetime-local"
+                                value={startTime}
+                                onChange={(e) => setStartTime(e.target.value)}
+                                className="w-full bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="text-[10px] uppercase font-bold text-text-muted ml-1 mb-1 block">End Time</label>
+                            <input
+                                type="datetime-local"
+                                value={endTime}
+                                onChange={(e) => setEndTime(e.target.value)}
+                                className="w-full bg-bg-input border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary transition-all"
+                            />
+                        </div>
+                    </div>
                     <button
                         onClick={handleCreateContest}
-                        className="bg-accent hover:bg-accent-hover text-accent-text font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap"
+                        className="w-full bg-accent hover:bg-accent-hover text-accent-text font-medium px-6 py-3 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap"
                     >
-                        Create
+                        Create Contest
                     </button>
                 </div>
             </div>

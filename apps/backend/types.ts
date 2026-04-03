@@ -10,7 +10,8 @@ export const AdminSigninSchema = z.object({
 
 export const CreateContestSchema = z.object({
     title: z.string(),
-    startTime: z.coerce.date()
+    startTime: z.coerce.date(),
+    endTime: z.coerce.date()
 })
 
 export const CreateChallengeSchema = z.object({

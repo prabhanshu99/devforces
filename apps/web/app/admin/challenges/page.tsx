@@ -24,6 +24,15 @@ export default function ChallengesAdmin() {
             router.push("/admin/signin");
             return;
         }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/challenge`, {
+            headers: { Authorization: token },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setChallenges(data.challenges ?? []);
+            })
+            .catch(() => { });
     }, []);
 
     async function handleCreateChallenge() {
@@ -101,7 +110,7 @@ export default function ChallengesAdmin() {
             {challenges.length > 0 && (
                 <>
                     <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-3">
-                        Recently Created
+                        All Challenges
                     </h2>
                     <div className="flex flex-col divide-y divide-border border border-border rounded-2xl overflow-hidden">
                         {challenges.map((ch) => (

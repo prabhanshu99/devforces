@@ -12,27 +12,33 @@ router.post("/signin", async (req, res) => {
         return res.status(411).json({ message: "Invalid input" });
     }
 
-    const user = await client.user.upsert({
-        create: {
-            email: data.email,
-            role: "User"
-        },
-        update: {},
-        where: {
-            email: data.email
+    try {
+        const user = await client.user.upsert({
+            create: {
+                email: data.email,
+                role: "User"
+            },
+            update: {},
+            where: {
+                email: data.email
+            }
+
+        })
+
+        const token = jwt.sign({
+            userId: user.id
+        }, process.env.EMAIL_JWT_PASSWORD as string);
+
+        if (process.env.NODE_ENV == "production") {
+            await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
+        } else {
+            console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
         }
-
-    })
-
-    const token = jwt.sign({
-        userId: user.id
-    }, process.env.EMAIL_JWT_PASSWORD as string);
-
-    if (process.env.NODE_ENV == "production") {
-        await sendEmail(data.email, `Login to Devforces`, `Click here to login : ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
-    } else {
-        console.log(`Login link for ${data.email}: ${process.env.FRONTEND_URL}/user/signin/post?token=${token}`);
+    } catch (error) {
+        return res.status(411).json({ message: "Invalid input" });
     }
+
+    res.json({ message: "Email sent successfully" });
 });
 
 router.get("/signin/post", async (req, res) => {
