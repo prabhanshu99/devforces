@@ -15,7 +15,7 @@ RUN bun run db:migrate
 
 EXPOSE 4000
 
-CMD ["bun", "run", "index.ts"]
+CMD ["bun", "run", "start:backend"]
 
 
 
