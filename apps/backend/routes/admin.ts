@@ -19,6 +19,11 @@ router.post("/signin", async (req, res) => {
             return res.status(411).json({ message: "Invalid input" });
         }
 
+        const adminEmails = (process.env.ADMIN_EMAILS || "").split(",");
+        if (!adminEmails.includes(data.email)) {
+            return res.status(403).json({ message: "Access denied: You are not authorized as an admin" });
+        }
+
         const user = await client.user.upsert({
             create: {
                 email: data.email,
